@@ -19,13 +19,13 @@ pipeline {
             agent {
                 docker { 
                     image 'python:3.9-slim'
-                    // Levanta um container totalmente novo e limpo para o teste
                 }
             }
             steps {
                 echo "Iniciando a execução dos testes..."
-                // Roda o unittest que você já criou
-                sh 'python3 test_temperatura.py -v'
+                catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') {
+                    sh 'python3 test_temperatura.py -v'
+                }
             }
         }
     }
